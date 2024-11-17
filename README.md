@@ -3,8 +3,12 @@
 AI Data Scientist is an approach towards conversational, open-sourced Data Science analysis. Leveraging the power of LLMs and natural language to democratize data insights.
 
 **Video Demonstration**
+<details>
+<summary>▶️ Video Demonstration</summary>
 
 https://github.com/user-attachments/assets/c5eb68bc-1dc0-493b-ab22-4abf6a882846
+
+</details>
 
 ### LLM Architecture
 <img src="data_flow.png" alt="Live Demo" width="550" />
