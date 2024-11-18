@@ -10,7 +10,7 @@ export const ReportButton = ({ chatHistory }) => {
       setLoading(true);
       setError(null);
 
-      const response = await fetch('http://localhost:8000/generate-report', {
+      const response = await fetch(`${process.env.VITE_API_URL}/generate-report`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

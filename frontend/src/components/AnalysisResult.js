@@ -48,7 +48,7 @@ export const AnalysisResult = ({ result, chatHistory, setChatHistory }) => {
 
     try {
       for (const code of result.code_blocks) {
-        const response = await fetch('http://localhost:8000/execute', {
+        const response = await fetch(`${process.env.VITE_API_URL}/execute`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

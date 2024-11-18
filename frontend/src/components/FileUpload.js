@@ -17,7 +17,7 @@ export const FileUpload = ({ onUpload }) => {
     formData.append('file', file);
 
     try {
-      const response = await fetch('http://localhost:8000/upload', {
+      const response = await fetch(`${process.env.VITE_API_URL}/upload`, {
         method: 'POST',
         body: formData,
       });
