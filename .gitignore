@@ -55,6 +55,8 @@ dist/
 
 # Project specific
 .env
+.env.local
+.env.*.local
 reports/
 logs/
 *.csv
