@@ -10,6 +10,11 @@ https://github.com/user-attachments/assets/c5eb68bc-1dc0-493b-ab22-4abf6a882846
 
 </details>
 
+## Live Demo
+The application is deployed and accessible at:
+- Frontend: https://nicozumarraga.github.io/ai-data-scientist
+- Backend API: https://ai-data-scientist-1.onrender.com
+
 ### LLM Architecture
 <img src="data_flow.png" alt="Live Demo" width="550" />
 
@@ -87,8 +92,15 @@ sudo apt-get install texlive-latex-base texlive-fonts-recommended texlive-fonts-
 
 4. **Create `.env`file in the backup directory:**
   ```env
+  # Required
   ANTHROPIC_API_KEY=your_api_key_here
-  MODEL_NAME=claude-3-5-haiku-20241022
+
+  # Optional - defaults shown
+  MODEL_NAME=claude-3-5-sonnet-20241022
+  MAX_TOKENS=1096
+  TEMPERATURE=0.3
+  ENVIRONMENT=development
+  CORS_ORIGINS=*
   ```
 
 ## Frontend Setup
@@ -98,6 +110,11 @@ sudo apt-get install texlive-latex-base texlive-fonts-recommended texlive-fonts-
   cd frontend
   npm install
    ```
+
+2. **Create `.env` file:**
+  ```env
+  VITE_API_URL=http://localhost:8000
+  ```
 
 ## Running the application
 
@@ -131,10 +148,35 @@ sudo apt-get install texlive-latex-base texlive-fonts-recommended texlive-fonts-
 - Click "Generate AI Report" to create a comprehensive PDF report
 - Reports include visualizations and insights from your analysis session
 
+## Deployment (Optional)
+
+### Backend (Render.com)
+1. Create a new Web Service in Render.com
+2. Connect your GitHub repository
+3. Configure as a Docker service:
+   - Root Directory: `backend`
+   - Environment: Docker
+   - Docker Command: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+4. Add environment variables:
+   - `ANTHROPIC_API_KEY`
+   - `MODEL_NAME`
+
+### Frontend (GitHub Pages)
+1. Create `.env.local` with your production backend URL:
+   ```env
+   VITE_API_URL=https://your-render-backend-url
+   ```
+2. Deploy yo GitHub pages
+  ```bash
+  cd frontend
+  npm run deploy
+  ```
+
 ## Project Structure
 ```
 .
 ├── backend/
+|   ├── Dockerfile
 │   ├── app/
 │   │   ├── services/
 │   │   │   ├── data_service.py
