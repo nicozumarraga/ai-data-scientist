@@ -12,7 +12,7 @@ module.exports = () => {
     output: {
       path: path.resolve(__dirname, 'dist'),
       filename: 'bundle.js',
-      publicPath: '/ai-data-scientist/',
+      publicPath: '/ai-data-scientist',
     },
     module: {
       rules: [
