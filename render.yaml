@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: ai-data-scientist
+    env: python
+    buildCommand: |
+      apt-get update && apt-get install -y texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
+      pip install -r backend/requirements.txt
+    startCommand: uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.10
+      - key: ANTHROPIC_API_KEY
+        sync: false
