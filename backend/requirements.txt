@@ -10,3 +10,5 @@ seaborn==0.13.0
 matplotlib==3.8.2
 pydantic>=2.0.0
 python-dotenv==1.0.0
+scikit-learn>=1.0.0
+xgboost>=1.0.0

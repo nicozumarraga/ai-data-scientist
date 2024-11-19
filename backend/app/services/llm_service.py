@@ -29,6 +29,78 @@ class LLMService:
             '__builtins__': __builtins__,
         }
 
+    def _import_ml_tools(self, code: str):
+        """Dynamically import only needed libraries based on code content"""
+        # Linear Models
+        if any(model in code for model in ['LinearRegression', 'LogisticRegression', 'Lasso', 'Ridge']):
+            from sklearn.linear_model import LinearRegression, LogisticRegression, Lasso, Ridge
+            self.namespace.update({
+                'LinearRegression': LinearRegression,
+                'LogisticRegression': LogisticRegression,
+                'Lasso': Lasso,
+                'Ridge': Ridge
+            })
+
+        # Forest Models
+        if 'RandomForest' in code:
+            from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+            self.namespace.update({
+                'RandomForestClassifier': RandomForestClassifier,
+                'RandomForestRegressor': RandomForestRegressor
+            })
+
+        # Boosting Models
+        if any(model in code for model in ['GradientBoosting', 'XGBoost', 'AdaBoost']):
+            from sklearn.ensemble import (
+                GradientBoostingClassifier, GradientBoostingRegressor,
+                AdaBoostClassifier, AdaBoostRegressor
+            )
+            import xgboost as xgb
+            self.namespace.update({
+                'GradientBoostingClassifier': GradientBoostingClassifier,
+                'GradientBoostingRegressor': GradientBoostingRegressor,
+                'AdaBoostClassifier': AdaBoostClassifier,
+                'AdaBoostRegressor': AdaBoostRegressor,
+                'XGBClassifier': xgb.XGBClassifier,
+                'XGBRegressor': xgb.XGBRegressor
+            })
+
+        # Preprocessing
+        if any(prep in code for prep in ['OneHotEncoder', 'StandardScaler', 'LabelEncoder']):
+            from sklearn.preprocessing import OneHotEncoder, StandardScaler, LabelEncoder
+            self.namespace.update({
+                'OneHotEncoder': OneHotEncoder,
+                'StandardScaler': StandardScaler,
+                'LabelEncoder': LabelEncoder
+            })
+
+        # Model Selection
+        if any(sel in code for sel in ['train_test_split', 'GridSearchCV', 'cross_val_score']):
+            from sklearn.model_selection import train_test_split, GridSearchCV, cross_val_score
+            self.namespace.update({
+                'train_test_split': train_test_split,
+                'GridSearchCV': GridSearchCV,
+                'cross_val_score': cross_val_score
+            })
+
+        # Metrics
+        if any(metric in code for metric in ['accuracy_score', 'precision_score', 'r2_score', 'mean_squared_error']):
+            from sklearn.metrics import (
+                accuracy_score, precision_score, recall_score, f1_score,
+                mean_squared_error, r2_score, confusion_matrix,
+                classification_report
+            )
+            self.namespace.update({
+                'accuracy_score': accuracy_score,
+                'precision_score': precision_score,
+                'recall_score': recall_score,
+                'f1_score': f1_score,
+                'mean_squared_error': mean_squared_error,
+                'r2_score': r2_score,
+                'confusion_matrix': confusion_matrix,
+                'classification_report': classification_report
+            })
+
     def reset_namespace(self):
         """Reset namespace when new data is loaded"""
         try:
@@ -130,11 +202,9 @@ Now listen to the user's query and answer considering all the previous requireme
 
         # Remove any common leading indentation while preserving relative indentation
         if lines:
-            # Find minimum indentation (excluding empty lines)
             non_empty_lines = [line for line in lines if line.strip()]
             if non_empty_lines:
                 min_indent = min(len(line) - len(line.lstrip()) for line in non_empty_lines)
-                # Remove only the common indentation
                 lines = [line[min_indent:] if line.strip() else line for line in lines]
 
         imports = [
@@ -175,7 +245,6 @@ Now listen to the user's query and answer considering all the previous requireme
 
         cleaned_blocks = []
         for match in matches:
-            # Split on comments that start new sections
             sections = re.split(r'\n# \d+\.|\n# Visualization \d+:', match)
 
             for section in sections:
@@ -231,6 +300,7 @@ Now listen to the user's query and answer considering all the previous requireme
     async def execute_code(self, code: str, plot_path: str = None) -> Dict[str, Any]:
         """Execute code and capture plots properly"""
         try:
+            self._import_ml_tools(code)
             plt.close('all')
 
             output_buffer = []
