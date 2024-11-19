@@ -12,7 +12,7 @@ https://github.com/user-attachments/assets/c5eb68bc-1dc0-493b-ab22-4abf6a882846
 
 ## Live Demo
 The application is deployed and accessible at:
-- Frontend: https://nicozumarraga.github.io/ai-data-scientist (your first "Upload .csv" request might take around 50 seconds - this is due to the server restarting on Render).
+- Frontend: https://nicozumarraga.github.io/ai-data-scientist *(your first "Upload .csv" request might take around 50 seconds - this is due to the server restarting on Render)*.
 - Backend API: https://ai-data-scientist-1.onrender.com
 
 ### LLM Architecture
